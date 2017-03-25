@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+	{% block content %}
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Suggestions</h3>
+		  </div>
+		  <div class="panel-body spacing">
+		    This page is for suggestions regarding new art. If you have anything you would like to see, please fill out this form and I will make sure to read it as soon as I can. Thank you!
+		    	
+		  </div>
+		  <div class="panel-body spacing">
+		    	<p>~General~</p>
+		    	
+		    	<form method="POST" action='/suggestionPage'>
+		    		
+		    		<table>
+		    			<tr><td>First Name</td>
+		    			<td><input type="text" name="firstname"></td></tr>
+		    		</table>
+		    		
+		    	</form>
+		    	
+		  </div>
+		</div>
+
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	{% endblock %}

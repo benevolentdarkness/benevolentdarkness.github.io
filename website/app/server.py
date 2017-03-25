@@ -1,6 +1,7 @@
 import os
+import psycopg2
 from jinja2 import Template
-from flask import Flask, render_template, url_for;
+from flask import Flask, render_template, url_for, request;
 app = Flask(__name__)
 
 @app.route('/')
@@ -8,8 +9,9 @@ def mainIndex():
     mainLink = url_for('mainIndex')
     photoLink = url_for('mainTypo')
     aboutLink = url_for('mainAbout')
+    suggestLink = url_for('mainSuggest')
     #print(photoLink)
-    return render_template('index.html', link1=photoLink, link2=mainLink, link3=aboutLink)
+    return render_template('index.html', link1=photoLink, link2=mainLink, link3=aboutLink, link4=suggestLink)
 
 @app.route('/typography')
 def mainTypo():
@@ -24,7 +26,8 @@ def mainTypo():
     mainLink = url_for('mainIndex')
     photoLink = url_for('mainTypo')
     aboutLink = url_for('mainAbout')
-    return render_template('page2.html', link1=photoLink, link2=mainLink, images=typoLib, link3=aboutLink)
+    suggestLink = url_for('mainSuggest')
+    return render_template('page2.html', link1=photoLink, link2=mainLink, images=typoLib, link3=aboutLink, link4=suggestLink)
     
 @app.route('/about')
 def mainAbout():
@@ -33,7 +36,25 @@ def mainAbout():
     mainLink = url_for('mainIndex')
     photoLink = url_for('mainTypo')
     aboutLink = url_for('mainAbout')
-    return render_template('page3.html', link1=photoLink, link2=mainLink, image=selfie, link3=aboutLink, name=alias)
+    suggestLink = url_for('mainSuggest')
+    return render_template('page3.html', link1=photoLink, link2=mainLink, image=selfie, link3=aboutLink, link4=suggestLink, name=alias)
+    
+@app.route('/suggestions')
+def mainSuggest():
+    linkSugg = url_for('mainSuggestions')
+    mainLink = url_for('mainIndex')
+    photoLink = url_for('mainTypo')
+    aboutLink = url_for('mainAbout')
+    suggestLink = url_for('mainSuggest')
+    return render_template('SuggestionPage.html', link5=linkSugg, link1=photoLink, link2=mainLink, link3=aboutLink, link4=suggestLink)
+    
+@app.route('/suggestions/suggest')
+def mainSuggestions():
+    suggestLink = url_for('mainSuggest')
+    mainLink = url_for('mainIndex')
+    photoLink = url_for('mainTypo')
+    aboutLink = url_for('mainAbout')
+    return render_template('suggestion.html', link1=photoLink, link2=mainLink, link3=aboutLink, link4=suggestLink)
 
 # start the server
 if __name__ == '__main__':
