@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 
 	{% block content %}
+	
+		<link rel="stylesheet" type="text/css" href="styles/main.css">
 
 		<div class="panel panel-default">
 		  <div class="panel-heading">
@@ -13,13 +15,36 @@
 		  <div class="panel-body spacing">
 		    	<p>~General~</p>
 		    	
-		    	<form method="POST" action='/suggestionPage'>
+		    	<form method="POST" action="/thankyou">
 		    		
 		    		<table>
-		    			<tr><td>First Name</td>
-		    			<td><input type="text" name="firstname"></td></tr>
+		    			<tr><td>First Name: &nbsp</td>
+		    				<td><input type="text" name="firstname"></td>
+		    			<td>&nbsp &nbsp Last Name: &nbsp</td>
+		    				<td><input type="text" name="lastname"></td></tr>
+		    			<tr> &nbsp </tr>
+		    			<tr><td>Age: &nbsp</td>
+		    				<td><input type="number" name="age"</td></tr>
+		    			<tr> &nbsp </tr>
+		    			
 		    		</table>
 		    		
+		    		<tr><td>Request Type: &nbsp<br></td></tr>
+		    			<tr>
+		    				<input type="radio" name="sugtype" value="typography" checked> typography<br>
+			    			<input type="radio" name="sugtype" value="digital"> digital art<br>
+			    			<input type="radio" name="sugtype" value="photography"> photography<br>
+			    			<input type="radio" name="sugtype" value="music"> music<br>
+			    			<input type="radio" name="sugtype" value="site"> site recommendations or bugs<br>
+			    			<input type="radio" name="sugtype" value="other"> other<br>
+			    		</tr>
+	    			<tr><td>Suggestions: &nbsp</td></tr>
+	    			<div>
+	    				<textarea name="sug" style="min-width: 90%" rows="10"></textarea>
+	    			</div>
+	    			<div>
+	    				<input type="submit" value="Submit">
+	    			</div>
 		    	</form>
 		    	
 		  </div>

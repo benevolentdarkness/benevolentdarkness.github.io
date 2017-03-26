@@ -40,3 +40,9 @@ p {
 .panel-body {
 	background-color: #777;
 }
+
+textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
