@@ -7,9 +7,11 @@
 		    <h3 class="panel-title">Suggestions</h3>
 		  </div>
 		  <div class="panel-body spacing">
-		    <div class="btn-group-vertical" role="group" aria-label="...">
-				<a class="btn btn-large btn-info" href={{link5}}>Suggest Something!</a>
-			</div>
+		  	{% if sess %}
+			    <div class="btn-group-vertical" role="group" aria-label="...">
+					<a class="btn btn-large btn-info" href={{url_for('mainSuggestions')}}>Suggest Something!</a>
+				</div>
+			{% endif %}
 
 		    <div class="panel-body spacing">
 		    	
@@ -18,7 +20,7 @@
 		    	<table border="1" width="100%" ID="Table2">	
 		    	<tr><th>First Name &nbsp</th><th>&nbsp Type &nbsp</th><th>&nbsp Suggestion &nbsp</th><th>&nbsp Votes</th></tr>
 		    	{% for t in tab %}
-		    		<tr><td>{{t[1]}} &nbsp</td><td>&nbsp {{t[4]}} &nbsp</td><td>&nbsp {{t[5]}} &nbsp</td><td>&nbsp {{t[6]}}</td></tr>
+		    		<tr><td>{{t[0]}} &nbsp</td><td>&nbsp {{t[1]}} &nbsp</td><td>&nbsp {{t[2]}} &nbsp</td><td>&nbsp {{t[3]}}</td></tr>
 	    		{% endfor %}
 	    		</table>
 		    	

@@ -1,20 +1,34 @@
 import os
 import database as db
 from jinja2 import Template
-from flask import Flask, render_template, url_for, request;
+from flask import Flask, render_template, url_for, request, session;
 app = Flask(__name__)
+
+app.secret_key = os.urandom(24).encode('hex')
 
 @app.route('/')
 def mainIndex():
-    mainLink = url_for('mainIndex')
-    photoLink = url_for('mainTypo')
-    aboutLink = url_for('mainAbout')
-    suggestLink = url_for('mainSuggest')
+    main = True
+    typo = False
+    other = False
+    log = False
+    digital = False
+    if 'username' in session:
+        insession = True
+        user = [session['username'], session['firstname'], session['lastname']]
+    else:
+        insession = False
+        user = ['', '', '']
     #print(photoLink)
-    return render_template('index.html', link1=photoLink, link2=mainLink, link3=aboutLink, link4=suggestLink, link20=test)
+    return render_template('index.html', user=user, sess=insession, main=main)
 
 @app.route('/typography')
 def mainTypo():
+    main = False
+    typo = True
+    other = False
+    log = False
+    digital = False
     typoLib = [{'file':'Image01.jpeg',
     'title': '13 Years Old'},
     {'file':'Image02.jpeg',
@@ -23,54 +37,133 @@ def mainTypo():
     'title': 'Comment Below'},
     {'file': 'Image04.jpeg',
     'title': 'Rule 71'}]
-    mainLink = url_for('mainIndex')
-    photoLink = url_for('mainTypo')
-    aboutLink = url_for('mainAbout')
-    suggestLink = url_for('mainSuggest')
-    return render_template('page2.html', link1=photoLink, link2=mainLink, images=typoLib, link3=aboutLink, link4=suggestLink)
+    if 'username' in session:
+        insession = True
+        user = [session['username'], session['firstname'], session['lastname']]
+    else:
+        insession = False
+        user = ['', '', '']
+    return render_template('page2.html', images=typoLib, user=user, sess=insession, typo=typo)
     
 @app.route('/about')
 def mainAbout():
+    main = False
+    typo = False
+    other = False
+    log = False
+    digital = False
     selfie = "selfie.jpeg"
     alias = True
-    mainLink = url_for('mainIndex')
-    photoLink = url_for('mainTypo')
-    aboutLink = url_for('mainAbout')
-    suggestLink = url_for('mainSuggest')
-    return render_template('page3.html', link1=photoLink, link2=mainLink, image=selfie, link3=aboutLink, link4=suggestLink, name=alias)
+    if 'username' in session:
+        insession = True
+        user = [session['username'], session['firstname'], session['lastname']]
+    else:
+        insession = False
+        user = ['', '', '']
+    return render_template('page3.html', image=selfie, name=alias, user=user, sess=insession)
     
 @app.route('/suggestions')
 def mainSuggest():
-    check = db.executeQuery("SELECT * FROM suggestions", db.connectSugg())
-    linkSugg = url_for('mainSuggestions')
-    mainLink = url_for('mainIndex')
-    photoLink = url_for('mainTypo')
-    aboutLink = url_for('mainAbout')
-    suggestLink = url_for('mainSuggest')
-    return render_template('SuggestionPage.html', link5=linkSugg, link1=photoLink, link2=mainLink, link3=aboutLink, link4=suggestLink, tab=check)
+    main = False
+    typo = False
+    other = False
+    log = False
+    digital = False
+    check = db.executeQuery("SELECT username, suggestiontype, suggestion, votes FROM suggestions INNER JOIN users ON suggestions.userid = users.userid", db.connectMaster())
+    if 'username' in session:
+        insession = True
+        user = [session['username'], session['firstname'], session['lastname']]
+    else:
+        insession = False
+        user = ['', '', '']
+    return render_template('SuggestionPage.html', tab=check, user=user, sess=insession)
     
 @app.route('/suggestions/suggest')
 def mainSuggestions():
-    suggestLink = url_for('mainSuggest')
-    mainLink = url_for('mainIndex')
-    photoLink = url_for('mainTypo')
-    aboutLink = url_for('mainAbout')
     #test = url_for('thankyou')
-    return render_template('suggestion.html', link1=photoLink, link2=mainLink, link3=aboutLink, link4=suggestLink)
+    if 'username' in session:
+        insession = True
+        user = [session['username'], session['firstname'], session['lastname']]
+    else:
+        insession = False
+        user = ['', '', '']
+    return render_template('suggestion.html', user=user, sess=insession)
     
 @app.route('/thankyou', methods=['POST'])
 def test():
-    fname = request.form['firstname']
-    lname = request.form['lastname']
-    age = request.form['age']
+    main = False
+    typo = False
+    other = False
+    log = False
+    digital = False
+    if 'username' in session:
+        insession = True
+        user = [session['username'], session['firstname'], session['lastname']]
+    else:
+        insession = False
+        user = ['', '', '']
     sugty = request.form['sugtype']
     sug = request.form['sug']
-    db.addToSuggestions(fname, lname, age, sugty, sug)
-    mainLink = url_for('mainIndex')
-    photoLink = url_for('mainTypo')
-    aboutLink = url_for('mainAbout')
-    suggestLink = url_for('mainSuggest')
-    return render_template('thankyou.html', link1=photoLink, link2=mainLink, link3=aboutLink, link4=suggestLink)
+    userid = db.executeQuery("SELECT userid FROM users WHERE username='%s'" % (user[0]), db.connectUsers())
+    db.addToSuggestions(userid, sugty, sug)
+    return render_template('thankyou.html', user=user, sess=insession)
+    
+@app.route('/create_account')
+def mainCreate():
+    main = False
+    typo = False
+    other = False
+    log = True
+    digital = False
+    return render_template('createaccount.html', log=log)
+    
+@app.route('/logged', methods=['POST'])
+def mainLogged():
+    main = False
+    typo = False
+    other = False
+    log = False
+    digital = False
+    if request.method == 'POST':
+        if db.checkexists(db.connectUsers(), request.form['username']):
+            print("Taken")
+            return render_template('usernametaken.html')
+        else:
+            print("Done")
+            session['username'] = request.form['username']
+            session['firstname'] = request.form['firstname']
+            session['lastname'] = request.form['lastname']
+            session['age'] = request.form['age']
+            db.addToUsers(request.form['firstname'], request.form['lastname'], request.form['username'], request.form['age'], request.form['pw'], request.form['email'])
+    if 'username' in session:
+        insession = True
+        user = [session['username'], session['firstname'], session['lastname']]
+    else:
+        insession = False
+        user = ['', '', '']
+    return render_template('index.html', sess=insession, user=user)
+    
+@app.route('/login', methods=['POST'])
+def mainIn():
+    if request.method == 'POST':
+        if db.checkexists(db.connectUsers(), request.form['username']):
+            if db.matchpassword(db.connectUsers(), request.form['pw'], request.form['username']):
+                session['username'] = request.form['username']
+                session['firstname'] = db.executeQuery("SELECT firstname FROM users WHERE username='%s'" % (request.form['username']), db.connectUsers())
+                session['lastname'] = db.executeQuery("SELECT lastname FROM users WHERE username='%s'" % (request.form['username']), db.connectUsers())
+                print("Logged in")
+            else:
+                print("Incorrect password")
+        else:
+            print("Incorrect username")
+            
+    if 'username' in session:
+        insession = True
+        user = [session['username'], session['firstname'], session['lastname']]
+    else:
+        insession = False
+        user = ['', '', '']
+    return render_template('index.html', sess=insession, user=user)
 
 # start the server
 if __name__ == '__main__':

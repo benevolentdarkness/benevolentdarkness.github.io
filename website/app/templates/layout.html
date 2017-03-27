@@ -25,25 +25,69 @@
 				        <span class="icon-bar"></span>
 				        <span class="icon-bar"></span>
 				      </button>
-				      <a class="navbar-brand" href={{link2}}>Chicken.com</a>
+				      <a class="navbar-brand" href={{url_for('mainIndex')}}>Chicken.com</a>
 				    </div>
 
 				    <!-- Collect the nav links, forms, and other content for toggling -->
 				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				      <ul class="nav navbar-nav">
-				        <li class="active"><a href={{link1}}>Typography<span class="sr-only">(current)</span></a></li>
-				        <li><a href="{{link20}}">Digital Art</a></li>
-				        <li><a href="#">Other Media</a></li>
+				      	{% if typo %}
+				        	<li class="active"><a href={{url_for('mainTypo')}}>Typography<span class="sr-only">(current)</span></a></li>
+			        	{% else %}
+			        		<li><a href={{url_for('mainTypo')}}>Typography</a></li>
+		        		{% endif %}
+				        {% if digital %}
+				        	<li class="active"><a href="#">Digital Art<span class="sr-only">(current)</span></a></li>
+			        	{% else %}
+			        		<li><a href="#">Digital Art</a></li>
+		        		{% endif %}
+				        {% if other %}
+				        	<li class="active"><a href="#">Other Media<span class="sr-only">(current)</span></a></li>
+			        	{% else %}
+			        		<li><a href="#">Other Media</a></li>
+		        		{% endif %}
 				      </ul>
 				      <ul class="nav navbar-nav navbar-right">
-				      	<li><a href="#">Login</a></li>
-				      	<li><a href="#">Sign Up</a></li>
+				      	
+				      	{% if sess %}
+				      		<p class="navbar-text">Logged in as {{user[0]}}</p>
+				      	{% endif %}
+				      	
+				      	{% if sess %}
+				      		<li><a href="#">Log Out</a></li>
+			      		{% else %}
+			      		
+				      		<li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <form method="POST" action="/login">
+		    		
+			    				<tr><td>&nbsp &nbsp email: &nbsp</td><br>
+				    				<td><input type="username" style="min-width: 90%" name="username"></td><br><br>
+			    				<tr><td>&nbsp &nbsp password: &nbsp</td><br>
+				    				<td><input type="password" style="min-width: 90%" name="pw"></td><br><br>
+				    			<div>
+				    				<tr><td>&nbsp &nbsp &nbsp </td><td><input type="submit" value="Login"></td></tr>
+				    			</div>
+					    	</form>
+				          </ul>
+				        </li>
+			      		{% endif %}
+				      	{% if sess %}}
+				      		<li><a href="#">Account</a></li>
+				      	{% else %}
+					      	{% if log %}
+					        	<li class="active"><a href={{url_for('mainTypo')}}>Sign Up<span class="sr-only">(current)</span></a></li>
+				        	{% else %}
+				        		<li><a href={{url_for('mainCreate')}}>Sign Up</a></li>
+			        		{% endif %}
+				      	{% endif %}
 				        <li class="dropdown">
 				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
 				          <ul class="dropdown-menu">
-				            <li><a href={{link3}}>Artist</a></li>
+				            <li><a href={{url_for('mainAbout')}}>Artist</a></li>
 				            <li><a href="#">Contact Info</a></li>
-				            <li><a href={{link4}}>Suggestions</a></li>
+				            <li><a href={{url_for('mainSuggest')}}>Suggestions</a></li>
 				            <li role="separator" class="divider"></li>
 				            <li><a href="#">Support the Author</a></li>
 				          </ul>
@@ -59,6 +103,7 @@
 			<div class="container">
 				<div class="panel panel-default">
 				  <div class="panel-body panel-inverse">
+				  	
 				    {% block content %}
 				    {% endblock %}
 				  </div>
