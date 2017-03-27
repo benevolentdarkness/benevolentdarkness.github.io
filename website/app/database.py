@@ -42,6 +42,7 @@ def executeQuery(query, conn, select=True, args=None):
     return results
     
 def addToSuggestions(userid, sugtype, sug):
+    print("Suggestions")
     conn = connectSugg()
     if conn == None:
         return None
@@ -53,7 +54,7 @@ def addToSuggestions(userid, sugtype, sug):
     return 0
     
 def addToUsers(fname, lname, username, age, password, email):
-    conn = connectSugg()
+    conn = connectUsers()
     if conn == None:
         return None
     qstring = "INSERT INTO users (firstname, lastname, username, age, password, email) VALUES ('%s', '%s', '%s', %s, '%s', '%s')" % (fname, lname, username, age, password, email)
