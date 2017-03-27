@@ -46,7 +46,8 @@ def addToSuggestions(userid, sugtype, sug):
     conn = connectSugg()
     if conn == None:
         return None
-    sug = sug.replace("'", "''")
+    if "'" in sug:    
+        sug = sug.replace("'", "''")
     qstring = "INSERT INTO suggestions (userid, suggestiontype, suggestion, votes) VALUES (%s, '%s', '%s', 0)" % (userid[0][0], sugtype, sug)
     print(qstring)
     executeQuery(qstring, conn, select=False, args=(userid, sugtype, sug))
