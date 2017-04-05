@@ -19,10 +19,34 @@
 		    	
 		    	<table border="1" width="100%" ID="Table2">	
 		    	<tr><th>Username &nbsp</th><th>&nbsp Type &nbsp</th><th>&nbsp Suggestion &nbsp</th><th>&nbsp Votes</th></tr>
+		    	{% if tab is not none %}
 		    	{% for t in tab %}
 		    		<tr><td>{{t[0]}} &nbsp</td><td>&nbsp {{t[1]}} &nbsp</td><td>&nbsp {{t[2]}} &nbsp</td><td>&nbsp {{t[3]}}</td></tr>
 	    		{% endfor %}
+	    		{% endif %}
 	    		</table>
+	    		
+	    		<form method="POST" action="/suggestions/sort">
+		    		
+		    		<tr><td>Sort by: &nbsp<br></td></tr>
+	    			<tr>
+	    				<input type="radio" name="search" value="username" checked> username<br>
+		    			<input type="radio" name="search" value="suggestiontype"> suggestion type<br>
+		    			<input type="radio" name="search" value="votes"> votes<br>
+		    		</tr>
+		    		<div>
+		    			&nbsp
+		    		</div>
+	    			<div>
+	    				{% if sess %}
+	    					<input type="radio" name="own" value="true" rows="10">Search only for own suggestions?<br>
+    					{% endif %}
+	    				<input type="radio" name="own" value="false" rows="10" checked>Search all suggestions<br>
+	    			</div>
+	    			<div>
+	    				<input type="submit" value="Submit">
+	    			</div>
+		    	</form>
 		    	
 		  </div>
 		</div>

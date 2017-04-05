@@ -164,6 +164,35 @@ def mainIn():
         insession = False
         user = ['', '', '']
     return render_template('index.html', sess=insession, user=user)
+    
+@app.route('/logout')
+def mainOut():
+    session.clear()
+    insession = False
+    return render_template('index.html', sess=insession)
+    
+@app.route('/suggestions/sort', methods=['POST'])
+def mainSort():
+    if 'username' in session:
+        insession = True
+        user = [session['username'], session['firstname'], session['lastname']]
+    else:
+        insession = False
+        user = ['', '', '']
+    sort = [request.form['search']]
+    name = user[0]
+    query = "SELECT username, suggestiontype, suggestion, votes FROM users INNER JOIN suggestions ON users.userid = suggestions.userid"
+    if request.form['own'] == 'false':
+        query += " ORDER BY %s"
+        check = db.sort(query, sort)
+        print(check)
+        return render_template('SuggestionPage.html', tab=check, user=user, sess=insession)
+    else:
+        query += " WHERE username=%s"
+        query += " ORDER BY %s"
+        check = db.sortOwn(query, name, sort)
+        print(check)
+        return render_template('SuggestionPage.html', tab=check, user=user, sess=insession)
 
 # start the server
 if __name__ == '__main__':

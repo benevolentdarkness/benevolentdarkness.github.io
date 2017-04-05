@@ -38,8 +38,10 @@ ALTER USER usermanager WITH PASSWORD 'HeWudrasEnamEkEcHuqUzatrEdE3AbAp';
 CREATE ROLE mastermanager WITH LOGIN;
 ALTER USER mastermanager WITH PASSWORD 'dR7ha66feguprutha7UjebuspeTeRaja';
 
-GRANT ALL ON suggestions TO sugmanager;
-GRANT ALL ON users TO usermanager;
-GRANT ALL ON suggestions, users TO mastermanager;
+GRANT SELECT, INSERT ON suggestions TO sugmanager;
+GRANT SELECT, INSERT ON users TO usermanager;
+GRANT SELECT, INSERT ON suggestions, users TO mastermanager;
 GRANT USAGE, SELECT ON SEQUENCE users_userid_seq TO usermanager;
 GRANT USAGE, SELECT ON SEQUENCE suggestions_id_seq TO sugmanager;
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
