@@ -71,7 +71,8 @@ def addToUsers(fname, lname, username, age, password, email):
 def checkexists(conn, track_id):
     cur = conn.cursor()
     try:
-        cur.execute("SELECT username FROM users WHERE username = %s", (track_id,))
+        qstring = cur.mogrify("SELECT username FROM users WHERE username = %s",(track_id,))
+        cur.execute(qstring)
     except Exception as e:
         conn.rollback()
         print(type(e))
