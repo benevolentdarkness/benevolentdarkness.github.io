@@ -52,6 +52,8 @@ def addToSuggestions(userid, sugtype, sug):
     conn = connectSugg()
     if conn == None:
         return None
+    if "'" in sug:
+        sug.replace("'", "''")
     qstring = "INSERT INTO suggestions (userid, suggestiontype, suggestion, votes) VALUES (%s, %s, %s, 0)"
     print(qstring)
     executeQuery(qstring, conn, select=False, args=(userid[0][0], sugtype, sug))
@@ -62,6 +64,12 @@ def addToUsers(fname, lname, username, age, password, email):
     conn = connectUsers()
     if conn == None:
         return None
+    if "'" in fname:
+        fname.replace("'", "''")
+    if "'" in lname:
+        lname.replace("'", "''")
+    if "'" in username:
+        username.replace("'", "''")
     qstring = "INSERT INTO users (firstname, lastname, username, age, password, email) VALUES (%s, %s, %s, %s, crypt(%s, gen_salt('bf')), %s)"
     print(qstring)
     executeQuery(qstring, conn, select=False, args=(fname, lname, username, age, password, email))
