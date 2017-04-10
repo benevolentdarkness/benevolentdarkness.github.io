@@ -122,13 +122,15 @@ def sort(quer, arg):
 def sortOwn(quer, arg1, arg2):
     conn = connectMaster()
     curr = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+    print("arguments:")
     print(quer)
     print(arg1)
     print(arg2)
+    string = "'" + arg1 + "'"
     if conn == None:
         return None
     try:
-        qstring = curr.mogrify(quer % (arg1[0], arg2[0]))
+        qstring = curr.mogrify(quer % (string, arg2[0]))
         print(qstring)
         curr.execute(qstring)
     except Exception as e:

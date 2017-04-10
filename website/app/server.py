@@ -181,6 +181,7 @@ def mainSort():
         user = ['', '', '']
     sort = [request.form['search']]
     name = user[0]
+    print(name)
     query = "SELECT username, suggestiontype, suggestion, votes FROM users INNER JOIN suggestions ON users.userid = suggestions.userid"
     if request.form['own'] == 'false':
         query += " ORDER BY %s"
