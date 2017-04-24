@@ -6,7 +6,7 @@ from flask import Flask, render_template, url_for, request, session;
 app = Flask(__name__)
 
 socketio = SocketIO(app)
-app.secret_key = os.urandom(24).encode('hex')
+app.secret_key = os.urandom(24).hex()
 admin = False
 owner = False
 
@@ -285,4 +285,4 @@ def mainChat():
 
 # start the server
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=8080)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)
