@@ -2,53 +2,61 @@
 
 	{% block content %}
 
-		<div class="panel panel-default">
-		  <div class="panel-heading">
-		    <h3 class="panel-title">Suggestions</h3>
-		  </div>
-		  <div class="panel-body spacing">
-		  	{% if sess %}
-			    <div class="btn-group-vertical" role="group" aria-label="...">
-					<a class="btn btn-large btn-info" href={{url_for('mainSuggestions')}}>Suggest Something!</a>
-				</div>
-			{% endif %}
+		<div class="panel panel-default" ng-app="ChatApp">
+			<div ng-controller="ChatController">
+		  		<div class="panel-heading">
+		    		<h3 class="panel-title">Suggestions</h3>
+		  		</div>
+		  		<div class="panel-body spacing">
+		  			{% if sess %}
+			    		<div class="btn-group-vertical" role="group" aria-label="...">
+							<a class="btn btn-large btn-info" href={{url_for('mainSuggestions')}}>Suggest Something!</a>
+						</div>
+					{% endif %}
 
-		    <div class="panel-body spacing">
+		    		<div class="panel-body spacing">
 		    	
-		    	<p><h3>Below are the list of suggestions currently made. More highly voted suggestions are more likely to be seen.</h3></p>
-		    	
-		    	<table border="1" width="100%" ID="Table2">	
-		    	<tr><th>Username &nbsp</th><th>&nbsp Type &nbsp</th><th>&nbsp Suggestion &nbsp</th><th>&nbsp Votes</th></tr>
-		    	{% if tab is not none %}
-		    	{% for t in tab %}
-		    		<tr><td>{{t[0]}} &nbsp</td><td>&nbsp {{t[1]}} &nbsp</td><td>&nbsp {{t[2]}} &nbsp</td><td>&nbsp {{t[3]}}</td></tr>
-	    		{% endfor %}
-	    		{% endif %}
-	    		</table>
+		    			<p><h3>Below are the list of suggestions currently made. More highly voted suggestions are more likely to be seen.</h3></p>
+	    				<div id="" style="overflow: auto; height:80vh;">
+           					<div class="scroll" id="msgpane">
+           						<p ng-repeat="msg in sugs">
+			                        <b ng-bind="msg.name"></b>: &nbsp
+			                        <span ng-bind="msg.type"></span>
+			                    </p>
+            	
+		    					<table border="1" width="100%" id="Table2">	
+			    					<tr><th>&nbsp Username &nbsp</th><th>&nbsp Type &nbsp</th><th>&nbsp Suggestion &nbsp</th><th>&nbsp Votes</th></tr>
+				                        
+				                    <tr ng-repeat="msg in sugs"><td>&nbsp<span ng-bind="msg.name"></span></td><td>&nbsp <span ng-bind="msg.type"></span></td><td>&nbsp <span ng-bind="msg.suggestion"></span></td><td>&nbsp<span ng-bind="msg.votes"></span></td></tr>
+	    						</table>
+    						</div>
+    					</div>
 	    		
-	    		<form method="POST" action="/suggestions/sort">
+	    				<form method="POST" action="/suggestions/sort">
 		    		
-		    		<tr><td>Sort by: &nbsp<br></td></tr>
-	    			<tr>
-	    				<input type="radio" name="search" value="username" checked> username<br>
-		    			<input type="radio" name="search" value="suggestiontype"> suggestion type<br>
-		    			<input type="radio" name="search" value="votes"> votes<br>
-		    		</tr>
-		    		<div>
-		    			&nbsp
-		    		</div>
-	    			<div>
-	    				{% if sess %}
-	    					<input type="radio" name="own" value="true" rows="10">Search only for own suggestions?<br>
-    					{% endif %}
-	    				<input type="radio" name="own" value="false" rows="10" checked>Search all suggestions<br>
-	    			</div>
-	    			<div>
-	    				<input type="submit" value="Submit">
-	    			</div>
-		    	</form>
+		    				<tr><td>Sort by: <br></td></tr>
+			    			<tr>
+			    				<input type="radio" name="search" value="username" checked> username<br>
+				    			<input type="radio" name="search" value="suggestiontype"> suggestion type<br>
+				    			<input type="radio" name="search" value="votes"> votes<br>
+				    		</tr>
+				    		<div>
+				    			&nbsp
+				    		</div>
+			    			<div>
+			    				{% if sess %}
+			    					<input type="radio" name="own" value="true" rows="10">Search only for own suggestions?<br>
+		    					{% endif %}
+			    					<input type="radio" name="own" value="false" rows="10" checked>Search all suggestions<br>
+			    			</div>
+			    			<div>
+			    				<input type="submit" value="Submit">
+			    			</div>
+		    			</form>
 		    	
-		  </div>
+		  			</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

@@ -1,0 +1,36 @@
+body {
+	font-family: arial;
+}
+
+.background {
+	background-image: url("static/Images/background.jpeg")
+}
+
+.spacing {
+	padding-bottom: 30px;
+}
+
+textarea {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.formLine {
+    overflow: hidden;
+    background: #ccc;
+}
+.formLine input {
+    width: 100%;
+}
+.formLine label {
+    float: left;
+}
+.formLine span {
+    display: block;
+    overflow: hidden;
+    padding: 0 5px;
+}
+.formLine button {
+    float: right;
+}

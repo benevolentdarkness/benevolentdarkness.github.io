@@ -2,6 +2,14 @@ import psycopg2
 import psycopg2.extras
 from psycopg2.extensions import AsIs
 
+def connectMessage():
+    connection = 'dbname=chicken user=messagemanager password=XyshenSsintk343b5h3bn9ndjsuz9s76aISneksI host=localhost'
+    print(connection)
+    try:
+        return psycopg2.connect(connection)
+    except:
+        print("Cannot connect to database")
+    
 def connectSugg():
     connection = 'dbname=chicken user=sugmanager password=PuBuY5pRuw2YeHaBeN7pAcu2eH2nas4u host=localhost'
     print(connection)
@@ -26,25 +34,26 @@ def connectMaster():
     except:
         print("Cannot connect to database")
         
-def executeQuery(query, conn, select=True, args=None, asis=False):
+def executeQuery(query, conn, select=True, args=None):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     results = None
-    print(query)
-    print(args)
+    #print(query)
+    #print(args)
     try:
         quer = cur.mogrify(query, args)
-        print(quer)
+        #print(quer)
         cur.execute(quer)
         if select:
             results = cur.fetchall()
         conn.commit()
-        print(select)
+        #print(select)
     except Exception as e:
         conn.rollback()
         print(type(e))
         print(e)
     conn.close()
     cur.close()
+    #print(results)
     return results
     
 def addToSuggestions(userid, sugtype, sug):
@@ -58,13 +67,15 @@ def addToSuggestions(userid, sugtype, sug):
     conn.close()
     return 0
     
-def addToUsers(fname, lname, username, age, password, email):
+def addToUsers(fname, lname, username, password, email):
+    #print("in addToUsers")
     conn = connectUsers()
     if conn == None:
+        print("Cannot connect")
         return None
-    qstring = "INSERT INTO users (firstname, lastname, username, age, password, email) VALUES (%s, %s, %s, %s, crypt(%s, gen_salt('bf')), %s)"
-    print(qstring)
-    executeQuery(qstring, conn, select=False, args=(fname, lname, username, age, password, email))
+    qstring = "INSERT INTO users (firstname, lastname, username, password, email) VALUES (%s, %s, %s, crypt(%s, gen_salt('bf')), %s)"
+    #print(qstring)
+    executeQuery(qstring, conn, select=False, args=(fname, lname, username, password, email))
     conn.close()
     return 0
     
@@ -94,6 +105,8 @@ def matchpassword(conn, trackpass, username):
         print(e)
         qstring = ""
     conn.close()
+    print(chek)
+    print(username)
     if chek[0][0] == username:
         return True
     else:
@@ -141,3 +154,54 @@ def sortOwn(quer, arg1, arg2):
         return curr.fetchall()
     else:
         return None
+        
+def getUsers(conn):
+    if conn == None:
+        return None
+    qstring = "SELECT username FROM users"
+    chek = executeQuery(qstring, conn, True, args=None)
+    return chek
+    
+def getAdmin(username, conn):
+    if conn == None:
+        return None
+    cur = conn.cursor()
+    qstring = "SELECT admin FROM users WHERE username=%s"
+    chek = cur.mogrify(qstring, username)
+    cur.execute(chek)
+    return cur.fetchall()
+    
+def addToMessages(username, msg):
+    conn = connectMaster()
+    if conn == None:
+        return None
+    qstring = "SELECT userid FROM users WHERE username=%s"
+    id = executeQuery(qstring, conn, True, args=[username])
+    print(id)
+    qstring = "INSERT INTO messages (userid, message) VALUES (%s, %s)"
+    conn = connectMaster()
+    if conn == None:
+        print("Couldn't connect to database")
+        return None
+    executeQuery(qstring, conn, False, args=(id[0][0], msg))
+    return 0
+    
+def getMessages():
+    conn = connectMessage()
+    if conn == None:
+        print("Cannot connect")
+        return None
+    qstring = "SELECT message FROM messages"
+    #print("Message: ", qstring)
+    chek = executeQuery(qstring, conn)
+    return chek
+    
+def getUserForMessage():
+    conn = connectMaster()
+    if conn == None:
+        print("Cannot connect")
+        return None
+    qstring = "SELECT users.username FROM messages INNER JOIN users ON messages.userid = users.userid"
+    #print("User: ", qstring)
+    chek = executeQuery(qstring, conn)
+    return chek

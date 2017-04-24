@@ -1,5 +1,5 @@
 <!doctype html>
-
+<html ng-app="ChatApp">
 	<head>
 		<title>Chicken Art</title>
 		
@@ -7,10 +7,13 @@
 
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/main.css') }}">
+		<link rel="stylesheet" type="text/css" src="static/styles/main.css">
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.4/socket.io.js"></script>
+	    <script src="static/Scripts/controller.js"></script>
 	</head>
 
-	<body class="background">
+	<body>
 	
 		
 		<header class="navbar-inverse">
@@ -62,10 +65,10 @@
 				          <ul class="dropdown-menu">
 				            <form method="POST" action="/login">
 		    		
-			    				<tr><td>&nbsp &nbsp email: &nbsp</td><br>
-				    				<td><input type="username" style="min-width: 90%" name="username"></td><br><br>
+			    				<tr><td>&nbsp &nbsp username: &nbsp</td><br>
+				    				<td><input type="username" style="min-width: 10vh" name="username"></td><br><br>
 			    				<tr><td>&nbsp &nbsp password: &nbsp</td><br>
-				    				<td><input type="password" style="min-width: 90%" name="pw"></td><br><br>
+				    				<td><input type="password" style="min-width: 10vh" name="pw"></td><br><br>
 				    			<div>
 				    				<tr><td>&nbsp &nbsp &nbsp </td><td><input type="submit" value="Login"></td></tr>
 				    			</div>
@@ -74,7 +77,14 @@
 				        </li>
 			      		{% endif %}
 				      	{% if sess %}}
-				      		<li><a href="#">Account</a></li>
+				      		<li class="dropdown">
+				          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+				          <ul class="dropdown-menu">
+				            <li><a href='#'>Profile</a></li>
+				            <li><a href="#">Account Settings</a></li>
+				            <li><a href={{url_for('mainChat')}}>Chat</a></li>
+				          </ul>
+				        </li>
 				      	{% else %}
 					      	{% if log %}
 					        	<li class="active"><a href={{url_for('mainTypo')}}>Sign Up<span class="sr-only">(current)</span></a></li>
@@ -100,9 +110,9 @@
 		</header>
 		<header>
 
-			<div class="container">
+			<div class="container background">
 				<div class="panel panel-default">
-				  <div class="panel-body panel-inverse">
+				  <div class="panel-body">
 				  	
 				    {% block content %}
 				    {% endblock %}
@@ -117,6 +127,7 @@
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	    <!-- Include all compiled plugins (below), or include individual files as needed -->
 	    <script src="js/bootstrap.min.js"></script>
+	    
 	</body>
 
 </html>
