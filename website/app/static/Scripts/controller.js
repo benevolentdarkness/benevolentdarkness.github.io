@@ -1,8 +1,7 @@
 var ChatApp = angular.module('ChatApp', []);
 
 ChatApp.controller('ChatController', function($scope){
-    var socket = io.connect('https://' + document.domain + ':' 
-    +location.port);
+    var socket = io.connect('https://' + document.domain + ':80');
     
     $scope.sugs = [];
     $scope.messages = [];
