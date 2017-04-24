@@ -19,15 +19,11 @@
 		    			<p><h3>Below are the list of suggestions currently made. More highly voted suggestions are more likely to be seen.</h3></p>
 	    				<div id="" style="overflow: auto; height:80vh;">
            					<div class="scroll" id="msgpane">
-           						<p ng-repeat="msg in sugs">
-			                        <b ng-bind="msg.name"></b>: &nbsp
-			                        <span ng-bind="msg.type"></span>
-			                    </p>
             	
 		    					<table border="1" width="100%" id="Table2">	
 			    					<tr><th>&nbsp Username &nbsp</th><th>&nbsp Type &nbsp</th><th>&nbsp Suggestion &nbsp</th><th>&nbsp Votes</th></tr>
 				                        
-				                    <tr ng-repeat="msg in sugs"><td>&nbsp<span ng-bind="msg.name"></span></td><td>&nbsp <span ng-bind="msg.type"></span></td><td>&nbsp <span ng-bind="msg.suggestion"></span></td><td>&nbsp<span ng-bind="msg.votes"></span></td></tr>
+				                    <tr ng-repeat="mess in sugs"><td>&nbsp<span ng-bind="mess.name"></span></td><td>&nbsp <span ng-bind="mess.type"></span></td><td>&nbsp <span ng-bind="mess.suggestion"></span></td><td>&nbsp<span ng-bind="mess.votes"></span></td></tr>
 	    						</table>
     						</div>
     					</div>

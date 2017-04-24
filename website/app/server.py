@@ -32,11 +32,11 @@ def makeConnection():
         stuff = {'name': name[i], 'type': types[i], 'suggestion': sug[i], 'votes': vote[i]}
         i = i + 1
         sendSug(stuff)
-    #i = 0
-    #for name in names:
-        #tmp = {'message': msgs[i], 'user': names[i]}
-        #i = i + 1
-        #sendMessage(tmp)
+    i = 0
+    for name in names:
+        tmp = {'message': msgs[i], 'user': names[i]}
+        i = i + 1
+        sendMessage(tmp)
     print('Yes this is connected')
     
 def sendMessage(tmp):

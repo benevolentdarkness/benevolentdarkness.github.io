@@ -17,7 +17,7 @@ ChatApp.controller('ChatController', function($scope){
     
     socket.on('message', function(msg){
        console.log(msg);
-       $scope.sugs.push(msg);
+       $scope.messages.push(msg);
        $scope.$apply();
        var elem = document.getElementById('msgpane');
        if(elem != null){
