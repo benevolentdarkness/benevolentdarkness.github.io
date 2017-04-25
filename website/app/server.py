@@ -90,7 +90,7 @@ def mainTypo():
     'title': 'Rule 71'}]
     if 'username' in session:
         insession = True
-        user = [session['username'], session['firstname'], session['lastname'], ]
+        user = [session['username'], session['firstname'], session['lastname']]
     else:
         insession = False
         user = ['', '', '']
@@ -107,7 +107,7 @@ def mainAbout():
     alias = True
     if 'username' in session:
         insession = True
-        user = [session['username'], session['firstname'], session['lastname'], ]
+        user = [session['username'], session['firstname'], session['lastname']]
         
             
         
@@ -127,7 +127,7 @@ def mainSuggest():
     check = db.executeQuery("SELECT username, suggestiontype, suggestion, votes FROM suggestions INNER JOIN users ON suggestions.userid = users.userid", db.connectMaster())
     if 'username' in session:
         insession = True
-        user = [session['username'], session['firstname'], session['lastname'], ]
+        user = [session['username'], session['firstname'], session['lastname']]
         
             
         
@@ -142,7 +142,7 @@ def mainSuggestions():
     #test = url_for('thankyou')
     if 'username' in session:
         insession = True
-        user = [session['username'], session['firstname'], session['lastname'], ]
+        user = [session['username'], session['firstname'], session['lastname']]
     else:
         insession = False
         user = ['', '', '']
@@ -157,7 +157,7 @@ def test():
     digital = False
     if 'username' in session:
         insession = True
-        user = [session['username'], session['firstname'], session['lastname'], ]
+        user = [session['username'], session['firstname'], session['lastname']]
         
             
         
@@ -199,7 +199,7 @@ def mainLogged():
             db.addToUsers(request.form['firstname'], request.form['lastname'], request.form['username'], request.form['pw'], request.form['email'])
     if 'username' in session:
         insession = True
-        user = [session['username'], session['firstname'], session['lastname'], ]
+        user = [session['username'], session['firstname'], session['lastname']]
         
             
         
@@ -225,7 +225,7 @@ def mainIn():
             
     if 'username' in session:
         insession = True
-        user = [session['username'], session['firstname'], session['lastname'], ]
+        user = [session['username'], session['firstname'], session['lastname']]
         
             
         
@@ -245,7 +245,7 @@ def mainOut():
 def mainSort():
     if 'username' in session:
         insession = True
-        user = [session['username'], session['firstname'], session['lastname'], ]
+        user = [session['username'], session['firstname'], session['lastname']]
         
             
         
@@ -273,7 +273,7 @@ def mainSort():
 def mainChat():
     if 'username' in session:
         insession = True
-        user = [session['username'], session['firstname'], session['lastname'], ]
+        user = [session['username'], session['firstname'], session['lastname']]
         
             
         
