@@ -167,7 +167,7 @@ def test():
         user = ['', '', '']
     sugty = request.form['sugtype']
     sug = request.form['sug']
-    userid = db.executeQuery("SELECT userid FROM users WHERE username='%s'" % (user[0]), db.connectUsers())
+    userid = db.executeQuery("SELECT userid FROM users WHERE username='%s'" % (user), db.connectUsers())
     db.addToSuggestions(userid, sugty, sug)
     return render_template('thankyou.html', user=user, sess=insession)
     
