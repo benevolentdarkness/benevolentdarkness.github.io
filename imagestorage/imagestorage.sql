@@ -11,20 +11,22 @@ CREATE TABLE images(
     PRIMARY KEY (imageid)
 );
 
-DROP TABLE IF EXISTS userimage;
-CREATE TABLE userimage(
-    id serial NOT NULL,
-    imageid int NOT NULL default 0,
-    userid int NOT NULL default 0,
-    PRIMARY KEY (id)
-);
-
 DROP TABLE IF EXISTS users;
 CREATE TABLE users(
     userid serial NOT NULL,
     username text NOT NULL default '',
     password text NOT NULL default '',
     PRIMARY KEY (userid)
+);
+
+DROP TABLE IF EXISTS userimage;
+CREATE TABLE userimage(
+    id serial NOT NULL,
+    imageid int NOT NULL default 0,
+    userid int NOT NULL default 0,
+    PRIMARY KEY (id),
+    FOREIGN KEY (imageid) REFERENCES images (imageid),
+    FOREIGN KEY (userid) REFERENCES users (userid)
 );
 
 DROP TABLE IF EXISTS tags;
@@ -39,7 +41,9 @@ CREATE TABLE tagmanager(
     id serial NOT NULL,
     imageid int NOT NULL default 0,
     tagid int NOT NULL default 0,
-    PRIMARY KEY (id)
+    PRIMARY KEY (id),
+    FOREIGN KEY (imageid) REFERENCES images (imageid),
+    FOREIGN KEY (tagid) REFERENCES tags (tagid)
 );
 
 DROP USER IF EXISTS mastermanager;
